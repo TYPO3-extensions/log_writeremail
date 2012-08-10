@@ -96,31 +96,23 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 	}
 
 	/**
+	 * Sets the E-Mail address of the sender
+	 *
 	 * @param string $sender
+	 * @return void
 	 */
 	public function setSender($sender) {
 		$this->sender = $sender;
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getSender() {
-		return $this->sender;
-	}
-
-	/**
+	 * Sets the E-Mail address of the recipient
+	 *
 	 * @param string $recipient
+	 * @return void
 	 */
 	public function setRecipient($recipient) {
 		$this->recipient = $recipient;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRecipient() {
-		return $this->recipient;
 	}
 }
 
