@@ -49,15 +49,6 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 		/** @var int */
 	protected $cropLength = 76;
 
-	/**
-	 * Constructor
-	 * Sets the sender and recipient E-Mail addresses
-	 *
-	 */
-	public function __construct() {
-		$this->recipient = ($GLOBALS['TYPO3_CONF_VARS']['BE']['warning_email_addr']) ? $GLOBALS['TYPO3_CONF_VARS']['BE']['warning_email_addr'] : '';
-		$this->sender = ($GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress']) ? $GLOBALS['TYPO3_CONF_VARS']['MAIL']['defaultMailFromAddress'] : '';
-	}
 
 	/**
 	 * Renders the E-Mail
