@@ -79,18 +79,19 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 	/**
 	 * Send a mail using the SwiftMailer API
 	 *
+	 * @return void
 	 */
 	protected function sendMail() {
 
-		/** @var $mail t3lib_mail_Message */
+			/** @var $mail t3lib_mail_Message */
 		$mail = t3lib_div::makeInstance('t3lib_mail_Message');
 		$mail->addTo($this->recipient);
 		$mail->setFrom($this->sender);
+		$mail->setSubject($this->subject);
+		$mail->setBody($this->body);
 		try {
-			$mail->setSubject($this->subject);
-			$mail->setBody($this->body)
-				->send();
-		} catch(Exception $e) {
+			$mail->send();
+		} catch (Exception $e) {
 			t3lib_log_LogManager::getLogger(__CLASS__)->warning($e);
 		}
 	}
@@ -114,7 +115,7 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 	public function setRecipient($recipient) {
 		$this->recipient = $recipient;
 	}
-}
 
+}
 
 ?>
