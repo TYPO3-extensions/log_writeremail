@@ -89,6 +89,7 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 		$mail->setFrom($this->sender);
 		$mail->setSubject($this->subject);
 		$mail->setBody($this->body);
+
 		try {
 			$mail->send();
 		} catch (Exception $e) {
