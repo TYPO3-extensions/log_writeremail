@@ -57,10 +57,11 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 	 * @TODO Make use of some templating
 	 *
 	 * @param t3lib_log_Record $record
+	 * @return Tx_LogWriteremail_Log_Writer_Email
 	 */
 	public function writeLog(t3lib_log_Record $record) {
 		if (empty($this->recipient) || empty($this->sender)) {
-			return FALSE;
+			return $this;
 		}
 
 		$this->subject =
@@ -73,6 +74,8 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 		$this->body = $record->getMessage() . print_r($record->getData(), TRUE);
 
 		$this->sendMail();
+
+		return $this;
 	}
 
 	/**
