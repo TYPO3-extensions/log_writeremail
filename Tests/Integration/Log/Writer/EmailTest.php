@@ -71,7 +71,7 @@ class Tx_LogWriteremail_Log_Writer_EmailTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function writeLogOnEmptySenderReturnsFalse() {
-		$logRecord = $this->getMockT3libLogRecord();
+		$logRecord = $this->getMockLogRecord();
 		$logRecord->expects($this->any())->method('getLevel')->will($this->returnValue(5));
 		$this->fixture->setSender('');
 		$this->assertSame(
@@ -84,7 +84,7 @@ class Tx_LogWriteremail_Log_Writer_EmailTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function writeLogOnEmptyRecipientReturnsFalse() {
-		$logRecord = $this->getMockT3libLogRecord();
+		$logRecord = $this->getMockLogRecord();
 		$logRecord->expects($this->any())->method('getLevel')->will($this->returnValue(5));
 		$this->fixture->setRecipient('');
 		$this->assertSame(
@@ -95,10 +95,10 @@ class Tx_LogWriteremail_Log_Writer_EmailTest extends tx_phpunit_testcase {
 	}
 
 	/**
-	 * @return t3lib_log_Record|PHPUnit_Framework_MockObject_MockObject
+	 * @return \TYPO3\CMS\Core\Log\LogRecord|PHPUnit_Framework_MockObject_MockObject
 	 */
-	private function getMockT3libLogRecord() {
-		$logRecord = $this->getMock('t3lib_log_Record', array(), array('', 5, ''));
+	private function getMockLogRecord() {
+		$logRecord = $this->getMock('TYPO3\\CMS\\Core\\Log\\LogRecord', array(), array('', 5, ''));
 		return $logRecord;
 	}
 

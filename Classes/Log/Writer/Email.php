@@ -26,14 +26,15 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+#use \TYPO3\CMS\Core\Log as Log;
+
 /**
  * LogWriter for the TYPO3 Logging API.
  * Sends Log records via E-Mail
  *
- * @TODO Are t3lib_mail_Message setters safe against control characters injection?
  * @TODO Make use of some templating
  */
-class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
+class Tx_LogWriteremail_Log_Writer_Email extends \TYPO3\CMS\Core\Log\Writer\AbstractWriter {
 
 		/** @var string */
 	protected $recipient = '';
@@ -54,21 +55,21 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 	/**
 	 * Renders the E-Mail
 	 *
-	 * @param t3lib_log_Record $record
+	 * @param \TYPO3\CMS\Core\Log\LogRecord $record
 	 * @return Tx_LogWriteremail_Log_Writer_Email
 	 */
-	public function writeLog(t3lib_log_Record $record) {
+	public function writeLog(\TYPO3\CMS\Core\Log\LogRecord $record) {
 		if (empty($this->recipient) || empty($this->sender)) {
 			return $this;
 		}
 
 		$this->subject =
-			'[' . t3lib_div::getHostname() . '] ' .
-			'[' . t3lib_log_Level::getName($record->getLevel()) . '] ' .
+			'[' . \TYPO3\CMS\Core\Utility\GeneralUtility::getHostname() . '] ' .
+			'[' . \TYPO3\CMS\Core\Log\LogLevel::getName($record->getLevel()) . '] ' .
 			'in ' . $record->getComponent() . ': ' .
 			$record->getMessage()
 		;
-		$this->subject = t3lib_div::fixed_lgd_cs($this->subject, $this->cropLength);
+		$this->subject = \TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs($this->subject, $this->cropLength);
 		$this->body = $record->getMessage() . print_r($record->getData(), TRUE);
 
 		$this->sendMail();
@@ -83,8 +84,8 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 	 */
 	protected function sendMail() {
 
-			/** @var $mail t3lib_mail_Message */
-		$mail = t3lib_div::makeInstance('t3lib_mail_Message');
+			/** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
+		$mail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
 		$mail->addTo($this->recipient);
 		$mail->setFrom($this->sender);
 		$mail->setSubject($this->subject);
@@ -93,7 +94,7 @@ class Tx_LogWriteremail_Log_Writer_Email extends t3lib_log_writer_Abstract {
 		try {
 			$mail->send();
 		} catch (Exception $e) {
-			t3lib_log_LogManager::getLogger(__CLASS__)->warning($e);
+			\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager')->getLogger(__CLASS__)->warning($e);
 		}
 	}
 
